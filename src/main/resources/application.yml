@@ -1,0 +1,57 @@
+security:
+  ignored: /**
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+---
+server:
+  port: ${PORT}
+
+spring:
+  profiles: production
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+discord:
+  token: $(PROD_DISCORD_TOKEN)
+
+---
+server:
+  port: ${PORT}
+
+spring:
+  profiles: dev
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+---
+server:
+  port: 8952
+
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/SNResume
+    username: postgres
+    password: 2DoRblt2
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
